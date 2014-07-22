@@ -3,6 +3,8 @@ require 'test_helper'
 class LineItemsControllerTest < ActionController::TestCase
   setup do
     @line_item = line_items(:one)
+    @cart = carts(:one)
+    session[:cart_id] = @cart.id
   end
 
   test "should get index" do
@@ -42,7 +44,6 @@ class LineItemsControllerTest < ActionController::TestCase
     assert_difference('LineItem.count', -1) do
       delete :destroy, id: @line_item
     end
-
-    assert_redirected_to line_items_path
+    assert_redirected_to cart_path(Cart.find(session[:cart_id]))
   end
 end
